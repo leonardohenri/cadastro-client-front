@@ -9,6 +9,8 @@ import Axios from "axios";
 
 
 export default function FormDialog(props) {
+  const [url, setUrl] = useState('https://leonardoportfolio.herokuapp.com/')
+ 
   const [editvalues, setEditValues] = useState({
     id:props.id,
     name:props.name,
@@ -24,7 +26,7 @@ export default function FormDialog(props) {
   });
 
   const handlesalvar = () =>{
-    Axios.put("http://localhost:3001/edit",{
+    Axios.put(`${url}edit`,{
     id:editvalues.id,
     name:editvalues.name,
     idade:editvalues.idade,
@@ -36,14 +38,13 @@ export default function FormDialog(props) {
     bairro:editvalues.bairro,
     numero:editvalues.numero,
     cidade:editvalues.cidade,
-  });
+  }).then((res) => {if(res)document.location.reload();});
   handleClose();
-  document.location.reload();
+ 
   };
   const handleDelete = () =>{
-    Axios.delete(`http://localhost:3001/delete/${editvalues.id}`);
+    Axios.delete(`${url}delete/${editvalues.id}`).then((res) => {if(res)document.location.reload();})
     handleClose();
-    document.location.reload();
   }
 
 

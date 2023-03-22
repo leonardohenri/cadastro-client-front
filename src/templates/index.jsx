@@ -10,15 +10,15 @@ export const Home = () =>{
  const [estados, setEstados] = useState(); 
  const [cidade, setCidade] = useState();
  const [disabled, setDisabled] = useState(true);
-
+ const [url, setUrl] = useState('https://leonardoportfolio.herokuapp.com/')
  
   useEffect(()=>{
-    axios.get("http://localhost:3001/getCards").then((res)=>(setCard(res.data)));
-    axios.get("http://localhost:3001/getEstados").then((res)=>(setEstados(res.data)));
+    axios.get(`${url}getCards`).then((res)=>(setCard(res.data)));
+    axios.get(`${url}getEstados`).then((res)=>(setEstados(res.data)));
     
   },[])
   const handleSubmit=()=>{
-    axios.post("http://localhost:3001/register",{
+    axios.post(`${url}register`,{
     name: values.name,
     idade:values.idade,
     cpf: values.cpf,
@@ -32,11 +32,11 @@ export const Home = () =>{
     cidade:values.cidade
 
   }).then((res)=>{console.log(res)})
-  setTimeout(()=>{axios.get("http://localhost:3001/getCards").then((res)=>(setCard(res.data)))},[5000])
+  setTimeout(()=>{axios.get(`${url}getCards`).then((res)=>(setCard(res.data)))},[5000])
   }
   const getCidades = (value) =>{
     console.log(value)
-    axios.get(`http://localhost:3001/getCidades/${value}`).then((res)=>(setCidade(res.data)))
+    axios.get(`${url}getCidades/${value}`).then((res)=>(setCidade(res.data)))
     setDisabled(false);
   }
   
@@ -54,8 +54,8 @@ export const Home = () =>{
     <h1>cadastro cliente</h1>
       <div className='cadastro'>
         <input onChange={handleChange} className='name' name='name' type="text" placeholder='Nome Completo' />
-        <input onChange={handleChange} className='idade' name='idade' type="number" placeholder='idade' />
-        <input onChange={handleChange} type='number' name='cpf' placeholder='CPF sem o "." eo "-"'/>
+        <input onChange={handleChange} className='idade' name='idade' type="date" placeholder='nascimento' />
+        <input onChange={handleChange} type='text' name='cpf' placeholder='CPF sem o "." eo "-"'/>
         <input onChange={handleChange} type="number" name='rg' placeholder='RG' />
 
         <select onChange={handleChange} name="sexo">
